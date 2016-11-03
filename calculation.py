@@ -28,6 +28,8 @@ None
 
 import numpy as np
 # __GLOBAL ARGUMENTS__________________________
+Amag, Bmag, Cmag, Aph, Bph, Cph = np.zeros(10), np.zeros(
+    10), np.zeros(10), np.zeros(10), np.zeros(10), np.zeros(10)
 zmag, zph, rez, imz, emag, eph, er, ltan = np.zeros(10), np.zeros(
     10), np.zeros(10), np.zeros(10), np.zeros(10), np.zeros(10), np.zeros(10)
 
@@ -53,6 +55,9 @@ def polar_to_rect(ang, mag):
     x = mag * np.cos(ang)
     y = mag * np.sin(ang)
     return (x, y)
+
+def cmult():
+    for i in range(1,3,2)
 
 
 def wall(theta):
@@ -110,7 +115,24 @@ def wall(theta):
         reR[I], imR[I] = polar_to_rect(RMAG[I], Rph[I])
         reT[I], imT[I] = 1 + reR[I], imR[I]
         Tmag[I], Tph[I] = rect_to_polar(reT[I], imT[I])
-    Amag = [np.exp(-imphi[1] * thk[1]), RMAG[1] * Amag[4], RMAG[1] * Amag[1], 1 / Amag[1]]
+    Amag[1] = np.exp(-imphi[1] * thk[1])
+    Amag[4] = 1 / Amag[1]
+    Amag[2] = RMAG[1] * Amag[4]
+    Amag[3] = RMAG[1] * Amag[1]
+    Aph[1] = ephi[1] * thk[1]
+    Aph[2] = Rph[1] - Aph[1]
+    Aph[3] = Rph[1] + Aph[1]
+    Aph[4] = -Aph[1]
+    for K in range(2, N + 1):
+        Bmag[1] = np.exp(-imphi[K] * thk[K])
+        Bmag[4] = 1 / Bmag[1]
+        Bmag[2] = RMAG[K] * Bmag[4]
+        Bmag[3] = RMAG[K] * Bmag[1]
+        Bph[1] = ephi[K] * thk[K]
+        Bph[2] = Rph[K] - Bph[1]
+        Bph[3] = Rph[K] + Bph[1]
+        Bph[4] = -Bph[1]
+        cmult()
 # __comment...__________________________
 
 
